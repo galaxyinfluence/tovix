@@ -126,6 +126,41 @@ app.post("/api/verify/check/", async (req, res) => {
     }
 });
 
+app.get("/api/auth/discord/callback", async (req, res) => {
+    const code = req.query.code;
+
+    if (!code) {
+        return res.redirect("/");
+    }
+
+    try {
+        const tokenResponse = await axios.post(
+            "https://discord.com/api/oauth2/token",
+            new URLSearcgParams({
+                client_id: process.env.DISCORD_AUTH_CLIENTID,
+                client_secret: process.env.DISCORD_AUTH_SECRET,
+                code: code,
+                grant_type: "authorization_code",
+                redirect_uri: process.env.DISCORD_AUTH_CALLBACK_URL,
+                scope: 'identify openid',
+            }),
+            {
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+            }
+        );
+
+        const accssToken = tokenRsponse.data.access_token;
+
+        const discordUserResponse = await axios.get("https://discord.com/api/v10/users/@me", {
+            headers: {
+                Authorization: `Bearer ${accessToken},
+            },
+        });
+    }
+});
+
 // Logout
 app.get("/logout", (req, res) => {
     if (req.cookies.session_token) {
