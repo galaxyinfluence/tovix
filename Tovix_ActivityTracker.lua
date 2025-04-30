@@ -9,8 +9,10 @@ end
 
 local configuration = {
   -- These are already set up, do not touch them
-  ["API_KEY"] = "API_KEY_HERE",
+  ["URL] = "api.tovix.app/activity/track/", -- The URL to connect to the server for activity tracking.
+  ["API_KEY"] = "API_KEY_HERE", -- Your API key for your worksapce, worksapce ID
   -- Configure the stuff below to your liking
-  ["RankChecking"] = true,
-  ["GroupId"] = 0,
+  ["RankChecking"] = true, -- Do you want to us to check the ranks of people so only relative data is recorded?
+  ["GroupId"] = 0, -- The ID of the group that the workspace is conencted to
+  ["MinTrackedRank"] = 0, -- The minimum rank ID to preform activity tracking for, automatically reterieved from your worksapce on game startup.
 }
